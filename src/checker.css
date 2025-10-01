@@ -1,0 +1,67 @@
+dl{
+  display: flex;
+  justify-content: space-between;
+  gap: 5px;
+  margin: 0;
+  padding: 0;
+}
+dt{
+  font-weight: bold;
+}
+
+.error{
+  color: red;
+  font-weight: bold;
+}
+.warn{
+  color: orange;
+  font-weight: bold;
+}
+
+.loader {
+  display: none;
+}
+
+.loader.loading {
+  display: inline;
+}
+#file_data_list{
+  display: block;
+  width: 100%;
+  width: fit-content;
+  margin: auto;
+}
+#checker_wrap {
+  max-width: 768px;
+  padding: 2.5%;
+  margin: auto;
+}
+#upload_form {
+  margin: 1rem auto;
+}
+#upload_form.active {
+  opacity: 1;
+  pointer-events: auto;
+}
+#upload_submit{
+  margin-top: 1rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+}
+
+#result_gray,
+#checker_preview {
+  display: flex;
+  justify-content: center;
+}
+#checker_preview {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+#checker_preview canvas {
+  max-width: 100%;
+  height: auto;
+  box-sizing: border-box;
+}

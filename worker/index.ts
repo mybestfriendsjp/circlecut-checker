@@ -1,12 +1,14 @@
-export default {
-  fetch(request) {
-    const url = new URL(request.url);
+import { env } from "cloudflare:workers";
+import { Hono } from "hono";
 
-    if (url.pathname.startsWith("/api/")) {
-      return Response.json({
-        name: "Cloudflare",
-      });
-    }
-		return new Response(null, { status: 404 });
-  },
-} satisfies ExportedHandler<Env>;
+const app = new Hono();
+
+app.post("/api/circlecut-upload", async (c) => {
+  const formData = await c.req.formData();
+  const file = formData.get("file") as File;
+
+  // ここでファイルを処理する
+  return c.json({ name: "Cloudflare" });
+});
+
+export default app;
