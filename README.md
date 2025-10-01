@@ -45,5 +45,7 @@ ReadMe一行目、Does not support reading Indexed, CMYK, Multichannel, Duotone 
 CMYKが読めない時点で当環境に絶対に合わない。
 
 という事で今回はPSD.jsを採用したのだが、今回の作成の前にPSD.jsを通常のJSで書き直したリポジトリを誰かが作ってくれた気がしたのだけど、見失ってしまった。この点はすまない
+2025/10/02 あっ、これか？？[psd-vanilla-js](https://github.com/sellersmith/psd-vanilla-js/tree/master?tab=readme-ov-file)
+PSD.jsの問題が解決するかもしれない
 
 2025/10/01 柿生
