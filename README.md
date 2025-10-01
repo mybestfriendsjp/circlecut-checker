@@ -28,4 +28,22 @@ psd-standalone.min.jsはHTMLファイルにscriptタグで読み込ませる必�
 
 今は入稿規格についての説明がありません。別途用意する必要がありますが、それ自体checker.tsxでも変数化して適用すべき事ではあるので、これから考える必要があります
 
+## 余談　PSDライブラリの選定について
+
+[PSD.js](https://github.com/meltingice/psd.js/)
+割と古めでruby版のライブラリを移植した、今なお安定で高機能なライブラリ。ただし恐ろしく使いづらい
+CoffeeScriptという独自JS言語を使っており、普及もしていないので改造ができない
+内部でrequireを使用。Node準拠の関数のためそのままブラウザで使えない
+そのためかなり無理をしてインストールしている。注意事項はその影響が大きい
+
+[@webtoon/psd](https://github.com/webtoon/psd/tree/main)
+軽量(100kb)高速な新しめのライブラリ。だがグレースケールを正しく認識できないバグに遭遇したため断念。
+※バグって？→グレースケールをなぜかRGBと認識し、しかもBlueがない画像だとして出力ができない。
+
+[ag-psd](https://github.com/Agamnentzar/ag-psd)
+ReadMe一行目、Does not support reading Indexed, CMYK, Multichannel, Duotone and LAB color modes (all supported color modes are converted to RGB mode when reading)
+CMYKが読めない時点で当環境に絶対に合わない。
+
+という事で今回はPSD.jsを採用したのだが、今回の作成の前にPSD.jsを通常のJSで書き直したリポジトリを誰かが作ってくれた気がしたのだけど、見失ってしまった。この点はすまない
+
 2025/10/01 柿生
