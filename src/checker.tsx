@@ -127,7 +127,7 @@ async function showFileData(file: File): Promise<boolean> {
   return new Promise((resolve) => {
 
     // チェック結果 初期値はtrue
-    let checkResult = true;
+    let isError = false;
 
     // サイズ規格 幅高さは同一が条件
     const limitW = LIMIT_SIZE[userSelectedSpace].width;
@@ -155,7 +155,7 @@ async function showFileData(file: File): Promise<boolean> {
     const eleExtension = createDescriptionListElement("拡張子", extension);
     if (!extension.toLowerCase().match(/png|psd/)) {
       eleExtension.querySelector("dd")!.classList.add("error");
-      checkResult = false;
+      isError = true;
     }
     flag.appendChild(eleExtension);
 
@@ -184,7 +184,7 @@ async function showFileData(file: File): Promise<boolean> {
           if (WH[0] !== limitW) {
             // 規定幅不等
             eleWidth.querySelector("dd")!.classList.add("error");
-            checkResult = false;
+            isError = true;
           } else {
             eleWidth.querySelector("dd")!.classList.add("ok");
           }
@@ -198,7 +198,7 @@ async function showFileData(file: File): Promise<boolean> {
           if (WH[1] !== limitH) {
             // 規定高さ不等
             eleHeight.querySelector("dd")!.classList.add("error");
-            checkResult = false;
+            isError = true;
           } else {
             eleHeight.querySelector("dd")!.classList.add("ok");
           }
@@ -207,7 +207,7 @@ async function showFileData(file: File): Promise<boolean> {
           $list.appendChild(flag);
 
           showPreviewImage(dataUrl, WH);
-          resolve(checkResult);
+          resolve(isError);
         }
       );
     } else if (extension === "psd") {/** PSDファイルの場合 */
@@ -249,7 +249,7 @@ async function showFileData(file: File): Promise<boolean> {
           if(fileData.color_mode !== "RGBColor" && fileData.color_mode !== "CMYKColor"){
             // RGB, CMYK以外は警告
             eleColorMode.querySelector("dd")!.classList.add("error");
-            checkResult = false;
+            isError = true;
           } else {
             eleColorMode.querySelector("dd")!.classList.add("warn");
           }
@@ -263,7 +263,7 @@ async function showFileData(file: File): Promise<boolean> {
         if (parseInt(fileData.width) !== limitW) {
           // 規定幅不等
           eleWidth.querySelector("dd")!.classList.add("error");
-          checkResult = false;
+          isError = true;
         } else {
           eleWidth.querySelector("dd")!.classList.add("ok");
         }
@@ -274,7 +274,7 @@ async function showFileData(file: File): Promise<boolean> {
         if (parseInt(fileData.height) !== limitH) {
           // 規定高さ不等
           eleHeight.querySelector("dd")!.classList.add("error");
-          checkResult = false;
+          isError = true;
         } else {
           eleHeight.querySelector("dd")!.classList.add("ok");
         }
@@ -303,7 +303,7 @@ async function showFileData(file: File): Promise<boolean> {
           psd.header.cols,
           psd.header.rows,
         ]);
-        resolve(checkResult);
+        resolve(isError);
       });
     } else {// PNG, PSD以外
       const abortEle = document.createElement("p");
@@ -311,7 +311,7 @@ async function showFileData(file: File): Promise<boolean> {
       abortEle.innerHTML = "PNGまたはPSDファイルを選択してください";
       flag.appendChild(abortEle);
       $list.appendChild(flag);
-      resolve(false);
+      resolve(true);
     }
 
   });
@@ -448,9 +448,11 @@ function Checker() {
       }
       const file = target.files[0];
       if (typeof file !== "undefined") {
+        // ファイルが設定されたのを確認したらアップロードボタンを無効化してから検証処理。結果がtrueなら有効化
         console.log("file get success");
         $submit.disabled = true;
         const isError = await showFileData(file);
+        console.log("isError", isError);
         if (!isError) {
           $submit.disabled = false;
         }
